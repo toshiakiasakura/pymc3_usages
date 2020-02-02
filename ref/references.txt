@@ -1,0 +1,16 @@
+####### references ##########
+-> theano should be investigated 
+
+# PyMC3, official documents
+https://docs.pymc.io/
+
+# Getting started with PyMC3 
+https://docs.pymc.io/notebooks/getting_started.html
+
+# Using PyMC3
+http://people.duke.edu/~ccc14/sta-663-2018/notebooks/S11A_PyMC3.html
+
+
+# PyMC3 Examples: GLM with Custom Likelihood 
+# for Outlier Classification
+https://sedar.co/posts/glm-robust-regression-using-custom-likelihood-for-outlier-classification/
