@@ -14,3 +14,6 @@ http://people.duke.edu/~ccc14/sta-663-2018/notebooks/S11A_PyMC3.html
 # PyMC3 Examples: GLM with Custom Likelihood 
 # for Outlier Classification
 https://sedar.co/posts/glm-robust-regression-using-custom-likelihood-for-outlier-classification/
+
+# Saving and Loading GP model in PYMC3
+https://discourse.pymc.io/t/saving-and-loading-gp-model-in-pymc3/1801
