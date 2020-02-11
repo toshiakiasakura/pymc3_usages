@@ -17561,7 +17561,7 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">EPS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
@@ -17571,7 +17571,7 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
     <span class="k">return</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">LogLike</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">Op</span><span class="p">):</span>
-    <span class="n">itypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tt</span><span class="o">.</span><span class="n">dvector</span><span class="p">]</span> <span class="c1"># expects a vector of parameter values when called</span>
+    <span class="n">itypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tt</span><span class="o">.</span><span class="n">dvector</span><span class="p">,</span><span class="n">tt</span><span class="o">.</span><span class="n">dvector</span><span class="p">]</span> <span class="c1"># expects a vector of parameter values when called</span>
     <span class="n">otypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tt</span><span class="o">.</span><span class="n">dscalar</span><span class="p">]</span> <span class="c1"># outputs a single scalar value (the log likelihood)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span><span class="n">endog</span><span class="p">):</span>
@@ -17582,8 +17582,8 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
         <span class="n">linear</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Phi</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span>  <span class="n">logiFunc</span><span class="p">(</span><span class="n">linear</span><span class="p">)</span>   <span class="c1"># N*1 vector </span>
         
-    <span class="k">def</span> <span class="nf">logp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">theta</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">logp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pred</span><span class="p">()</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
@@ -17592,8 +17592,8 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
         <span class="k">return</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="n">theta</span>   <span class="o">=</span> <span class="n">inputs</span> <span class="c1"># this will contain my variables</span>
-        <span class="n">logl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span>  <span class="o">=</span> <span class="n">inputs</span> <span class="c1"># this will contain my variables</span>
+        <span class="n">logl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span><span class="p">)</span>
         <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">logl</span><span class="p">)</span> <span class="c1"># output the log-likelihood</span>
 </pre></div>
 
@@ -17604,7 +17604,7 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># data preparation </span>
@@ -17625,8 +17625,8 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
     <span class="c1"># I divide parameters into two parts. </span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta1&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta2&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>    
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">as_tensor_variable</span><span class="p">([</span><span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span><span class="p">])</span>
-    <span class="n">logp</span> <span class="o">=</span> <span class="n">LogLike</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="c1"># two parametrs are not accepted. </span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">beta1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">beta1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">logp</span> <span class="o">=</span> <span class="n">LogLike</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span><span class="p">)</span> 
     <span class="n">pm</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span><span class="n">logp</span><span class="p">)</span>
 
     <span class="n">trace4</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="n">nIter</span><span class="p">)</span>
@@ -17645,12 +17645,24 @@ The acceptance probability does not match the target. It is 0.8839739108387422, 
     <div class="prompt"></div>
 
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Subtensor{int64}.0 Subtensor{int64}.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (2 chains in 2 jobs)
 NUTS: [beta2, beta1]
-Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000 [00:06&lt;00:00, 301.35draws/s]
+Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000 [00:10&lt;00:00, 192.68draws/s]
+The acceptance probability does not match the target. It is 0.8926081662316422, but should be close to 0.8. Try to increase the number of tuning steps.
 </pre>
 </div>
 </div>
@@ -17661,7 +17673,7 @@ Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">model4</span><span class="p">)</span>
@@ -17677,7 +17689,7 @@ Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[24]:</div>
+    <div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -17741,7 +17753,7 @@ Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.95</span>
@@ -17758,7 +17770,7 @@ Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[14]:</div>
 
 
 
@@ -17798,57 +17810,57 @@ Sampling 2 chains, 0 divergences: 100%|██████████| 2000/2000
     <tr>
       <th>beta1[0]</th>
       <td>-0.111</td>
-      <td>0.034</td>
-      <td>-0.176</td>
-      <td>-0.041</td>
+      <td>0.037</td>
+      <td>-0.181</td>
+      <td>-0.040</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>815.0</td>
-      <td>805.0</td>
-      <td>812.0</td>
-      <td>595.0</td>
+      <td>842.0</td>
+      <td>705.0</td>
+      <td>846.0</td>
+      <td>527.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>beta1[1]</th>
-      <td>-0.305</td>
-      <td>0.066</td>
-      <td>-0.426</td>
-      <td>-0.165</td>
+      <td>-0.309</td>
+      <td>0.071</td>
+      <td>-0.458</td>
+      <td>-0.182</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>740.0</td>
-      <td>740.0</td>
-      <td>743.0</td>
-      <td>583.0</td>
+      <td>707.0</td>
+      <td>703.0</td>
+      <td>709.0</td>
+      <td>550.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>beta2[0]</th>
-      <td>1.170</td>
-      <td>0.078</td>
-      <td>1.026</td>
-      <td>1.316</td>
+      <td>1.175</td>
+      <td>0.071</td>
+      <td>1.041</td>
+      <td>1.320</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>718.0</td>
-      <td>718.0</td>
-      <td>717.0</td>
-      <td>406.0</td>
+      <td>727.0</td>
+      <td>727.0</td>
+      <td>723.0</td>
+      <td>520.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>beta2[1]</th>
-      <td>-0.450</td>
-      <td>0.052</td>
-      <td>-0.541</td>
-      <td>-0.346</td>
+      <td>-0.449</td>
+      <td>0.058</td>
+      <td>-0.568</td>
+      <td>-0.344</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>581.0</td>
-      <td>533.0</td>
-      <td>661.0</td>
-      <td>443.0</td>
+      <td>0.001</td>
+      <td>789.0</td>
+      <td>776.0</td>
+      <td>792.0</td>
+      <td>545.0</td>
       <td>1.01</td>
     </tr>
   </tbody>

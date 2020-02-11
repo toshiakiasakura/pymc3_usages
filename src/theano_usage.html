@@ -16420,11 +16420,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
+<span class="kn">import</span> <span class="nn">theano</span>
 <span class="kn">from</span> <span class="nn">theano</span> <span class="k">import</span> <span class="n">function</span>
 </pre></div>
 
@@ -16635,15 +16636,154 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="switch">switch<a class="anchor-link" href="#switch">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">scalars</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">ge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">f_switch</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span><span class="n">z</span><span class="p">)</span>
+<span class="n">f_switch</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array(2, dtype=int8)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">scalars</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="n">b</span><span class="p">])</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">],</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">-----------------------------------------------------------------</span>
+<span class="ansi-red-fg">UnusedInputError</span>                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-20-a72ba79fa9f4&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> a<span class="ansi-blue-fg">,</span>b <span class="ansi-blue-fg">=</span> tt<span class="ansi-blue-fg">.</span>scalars<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;a&#34;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#34;b&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> z <span class="ansi-blue-fg">=</span> tt<span class="ansi-blue-fg">.</span>stack<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>a<span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">[</span>b<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span>f <span class="ansi-blue-fg">=</span> theano<span class="ansi-blue-fg">.</span>function<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>a<span class="ansi-blue-fg">,</span>b<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>z<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages/theano/compile/function.py</span> in <span class="ansi-cyan-fg">function</span><span class="ansi-blue-fg">(inputs, outputs, mode, updates, givens, no_default_updates, accept_inplace, name, rebuild_strict, allow_input_downcast, profile, on_unused_input)</span>
+<span class="ansi-green-intense-fg ansi-bold">    315</span>                    on_unused_input<span class="ansi-blue-fg">=</span>on_unused_input<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    316</span>                    profile<span class="ansi-blue-fg">=</span>profile<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 317</span><span class="ansi-red-fg">                    output_keys=output_keys)
+</span><span class="ansi-green-intense-fg ansi-bold">    318</span>     <span class="ansi-green-fg">return</span> fn
+
+<span class="ansi-green-fg">~/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages/theano/compile/pfunc.py</span> in <span class="ansi-cyan-fg">pfunc</span><span class="ansi-blue-fg">(params, outputs, mode, updates, givens, no_default_updates, accept_inplace, name, rebuild_strict, allow_input_downcast, profile, on_unused_input, output_keys)</span>
+<span class="ansi-green-intense-fg ansi-bold">    484</span>                          accept_inplace<span class="ansi-blue-fg">=</span>accept_inplace<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">=</span>name<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    485</span>                          profile<span class="ansi-blue-fg">=</span>profile<span class="ansi-blue-fg">,</span> on_unused_input<span class="ansi-blue-fg">=</span>on_unused_input<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 486</span><span class="ansi-red-fg">                          output_keys=output_keys)
+</span><span class="ansi-green-intense-fg ansi-bold">    487</span> 
+<span class="ansi-green-intense-fg ansi-bold">    488</span> 
+
+<span class="ansi-green-fg">~/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages/theano/compile/function_module.py</span> in <span class="ansi-cyan-fg">orig_function</span><span class="ansi-blue-fg">(inputs, outputs, mode, accept_inplace, name, profile, on_unused_input, output_keys)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1837</span>                   on_unused_input<span class="ansi-blue-fg">=</span>on_unused_input<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1838</span>                   output_keys<span class="ansi-blue-fg">=</span>output_keys<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">-&gt; 1839</span><span class="ansi-red-fg">                   name=name)
+</span><span class="ansi-green-intense-fg ansi-bold">   1840</span>         <span class="ansi-green-fg">with</span> theano<span class="ansi-blue-fg">.</span>change_flags<span class="ansi-blue-fg">(</span>compute_test_value<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;off&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1841</span>             fn <span class="ansi-blue-fg">=</span> m<span class="ansi-blue-fg">.</span>create<span class="ansi-blue-fg">(</span>defaults<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages/theano/compile/function_module.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, inputs, outputs, mode, accept_inplace, function_builder, profile, on_unused_input, fgraph, output_keys, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1472</span> 
+<span class="ansi-green-intense-fg ansi-bold">   1473</span>         <span class="ansi-red-fg"># Check if some input variables are unused</span>
+<span class="ansi-green-fg">-&gt; 1474</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_check_unused_inputs<span class="ansi-blue-fg">(</span>inputs<span class="ansi-blue-fg">,</span> outputs<span class="ansi-blue-fg">,</span> on_unused_input<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1475</span> 
+<span class="ansi-green-intense-fg ansi-bold">   1476</span>         <span class="ansi-red-fg"># Make a list of (SymbolicInput|SymblicInputKits, indices,</span>
+
+<span class="ansi-green-fg">~/.pyenv/versions/anaconda3-5.3.1/lib/python3.7/site-packages/theano/compile/function_module.py</span> in <span class="ansi-cyan-fg">_check_unused_inputs</span><span class="ansi-blue-fg">(self, inputs, outputs, on_unused_input)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1625</span>                 <span class="ansi-green-fg">elif</span> on_unused_input <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#39;raise&#39;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1626</span>                     raise UnusedInputError(msg % (inputs.index(i),
+<span class="ansi-green-fg">-&gt; 1627</span><span class="ansi-red-fg">                                                   i.variable, err_msg))
+</span><span class="ansi-green-intense-fg ansi-bold">   1628</span>                 <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1629</span>                     raise ValueError(&#34;Invalid value for keyword &#34;
+
+<span class="ansi-red-fg">UnusedInputError</span>: theano.function was asked to create a function computing outputs given certain inputs, but the provided input variable at index 1 is not part of the computational graph needed to compute the outputs: b.
+To make this error into a warning, you can pass the parameter on_unused_input=&#39;warn&#39; to theano.function. To disable it completely, use on_unused_input=&#39;ignore&#39;.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0., 1.])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
