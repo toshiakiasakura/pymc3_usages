@@ -14,9 +14,11 @@ RUN conda install -c anaconda -y nodejs && \
 
 # python package installation. 
 RUN pip install japanize-matplotlib 
-RUN conda install numpy scipy mkl
-RUN conda install theano pygpu
-RUN conda install -c conda-forge pymc3 
+RUN pip install pymc3==3.10.0
+
+# install gcc 
+RUN apt update 
+RUN apt install build-essential -y
 
 # install vim 
 RUN apt-get update && \
