@@ -14,7 +14,7 @@ RUN conda install -c anaconda -y nodejs && \
 
 # python package installation. 
 RUN pip install japanize-matplotlib 
-RUN pip install pymc3==3.10.0
+RUN pip install pymc3==3.10.0 && pip install watermark
 
 # install gcc 
 RUN apt update 
